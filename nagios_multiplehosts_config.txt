@@ -1,0 +1,59 @@
+Configuration Of Hostgroups :: ($ is mentioned for user account)
+----------------------------
+Step 1: Create  a Hostgroup File
+
+When you install the Nagios, It will not provide you default hostgroup file in the Nagios directory.
+
+Here you need to first create a hostgroup file inside the “/usr/local/nagios/objects” directory where you will find all the Nagios configuration files.
+
+Nagios configuration files has “.cfg” extension. We will create a file called “hostsgroup.cfg”
+
+$vim /usr/local/nagios/objects/hostsgroup.cfg
+
+define hostgroup {
+           hostgroup_name    Remote_host
+           alias             Remote_host
+           members           nagios_host
+         }
+
+Example: #vim /usr/local/nagios/objects/hostsgroup.cfg
+	 define hostgroup {
+			hostgroup_name	 We-do-IT
+			alias		 wdi
+			members		 hydnb44,hydpc147(add hostnames to this members)
+	}
+
+Step 2: Give Permissions
+
+Once you create hostsgroup.cfg file, it will create with a normal login user permissions. We need to change permissions with the required Nagios permissions. 
+
+So that Nagios user will able to read the file.
+
+$chown nagios:nagios hostsgroup.cfg (nagiosuser:nagiosuser)
+$chmod 664 hostgroup.cfg
+
+Step 3: Add Hostgroup File
+
+Now you need to define the “hostsgroup.cfg” file in main nagios configuration file i.e. “nagios.cfg”.
+
+When you define hostsgroup.cfg file nagios.cfg then nagios will be able to execute the defined parameters from hostsgroup.cfg file.
+
+$vim /usr/local/nagios/etc/nagios.cfg
+
+	#Add below line
+	cfg_file=/usr/local/nagios/etc/objects/hostsgroup.cfg
+
+Save and close the file
+
+Step 4: Verify Configuration & Restart Nagios Service
+
+After all the necessary configuration changes, you need to check for syntax warnings and restart the Nagios service to reflect the newer changes on Nagios.
+
+To check for errors & warning in configuration,
+
+$/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg (for verifying configuration)
+
+Restart Nagios Service,
+
+$sysetmctl restart nagios.service
+

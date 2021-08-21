@@ -1,0 +1,10 @@
+hydpc147
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+
+
+comment hostgroup in window.cfg file
+write a hostgroup.cfg file
+
+
+Brief one:
+
